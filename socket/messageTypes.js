@@ -1,0 +1,5 @@
+export default {
+  ADD_USER: 'ADD_USER',
+  USERS_LIST: 'USERS_LIST',
+  ADD_MESSAGE: 'ADD_MESSAGE',
+};

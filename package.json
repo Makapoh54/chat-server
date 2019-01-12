@@ -1,0 +1,41 @@
+{
+  "name": "chat-server",
+  "version": "1.0.0",
+  "description": "WS chat server",
+  "main": "server.js",
+  "scripts": {
+    "start": "babel-node ./server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Makapoh54/chat-server.git"
+  },
+  "author": "Antons Cornijs",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Makapoh54/chat-server/issues"
+  },
+  "homepage": "https://github.com/Makapoh54/chat-server#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
+    "@babel/node": "^7.2.2",
+    "@babel/preset-env": "^7.2.3",
+    "chai": "^4.2.0",
+    "eslint": "^5.12.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-prettier": "^3.3.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-prettier": "^3.0.1",
+    "mocha": "^5.2.0",
+    "prettier": "^1.15.3",
+    "sinon": "^7.2.2",
+    "sinon-chai": "^3.3.0"
+  },
+  "dependencies": {
+    "dotenv": "^6.2.0",
+    "winston": "^3.1.0",
+    "ws": "^6.1.2"
+  }
+}

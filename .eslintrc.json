@@ -1,0 +1,20 @@
+{
+  "env": {
+    "node": true,
+    "es6": true,
+    "mocha": true
+  },
+  "extends": ["airbnb-base", "prettier"],
+  "plugins": ["import", "prettier"],
+  "rules": {
+    "prettier/prettier": "error"
+  },
+  "globals": {
+    "chai": true,
+    "expect": true,
+    "shallow": true,
+    "mount": true,
+    "sinon": true,
+    "jest": true
+  }
+}
