@@ -3,8 +3,8 @@ import userStorage from '../storage/userStorage';
 const logger = require('../utils/logger')('UserController');
 
 const checkUserExists = async (req, res) => {
-  logger.log('info', JSON.stringify(req.query));
-  res.status(200).send({ data: { userExists: userStorage.isUserExist(req.query.username) } });
+  logger.log('info', JSON.stringify(req.params));
+  res.status(200).send({ data: { userExists: userStorage.isUserExist(req.params.username) } });
 };
 
 const addNewUser = async (req, res) => {
