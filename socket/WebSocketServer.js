@@ -1,18 +1,18 @@
 import WebSocket from 'ws';
 import messageTypes from './messageTypes';
+import userStorage from '../storage/userStorage';
 
 const logger = require('../utils/logger')('WebSocketServer');
 
 export default class WebSocketServer {
-  constructor(port) {
-    this.users = [];
-    this.wss = new WebSocket.Server({ port });
+  constructor(port, server) {
+    this.wss = new WebSocket.Server({ server });
 
     this.wss.on('connection', ws => {
       ws.on('message', message => this.handleMessage(message, ws));
       ws.on('close', () => {
-        this.users.splice(this.users.length, 1);
-        this.broadcast({ type: 'USERS_LIST', users: this.users }, ws);
+        if (ws.user && ws.user.id) userStorage.removeUser(ws.user.id);
+        this.broadcast({ type: 'USERS_LIST', users: userStorage.getAllUsers() }, ws);
       });
     });
   }
@@ -27,19 +27,21 @@ export default class WebSocketServer {
   }
 
   handleMessage(message, ws) {
+    logger.log('info', `message: ${message}!`);
     const data = JSON.parse(message);
     switch (data.type) {
       case messageTypes.ADD_USER: {
-        logger.log('info', `User: ${data.name} connected!`);
-        this.users.push({ name: data.name, id: this.users.length + 1 });
+        logger.log('info', `User: ${data.username} connected!`);
+        ws.user = userStorage.addUser(data.username);
         this.broadcast(
           {
             type: messageTypes.USERS_LIST,
-            users: this.users,
+            users: userStorage.getAllUsers(),
           },
           ws,
+          true,
         );
-        logger.log('debug', `User List: ${this.users}`);
+        logger.log('debug', `User List: ${userStorage.getAllUsers()}`);
         break;
       }
       case messageTypes.ADD_MESSAGE:
@@ -47,10 +49,9 @@ export default class WebSocketServer {
           {
             type: messageTypes.ADD_MESSAGE,
             message: data.message,
-            author: data.author,
+            username: data.username,
           },
           ws,
-          false,
         );
         logger.log('debug', `ADD_MESSAGE called, data: ${data}`);
         break;
