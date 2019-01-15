@@ -17,7 +17,7 @@ export default class WebSocketServer {
     });
   }
 
-  broadcast(message, ws, exceptClient = true) {
+  broadcast(message, ws, exceptClient = false) {
     this.wss.clients.forEach(client => {
       if ((!exceptClient || client !== ws) && client.readyState === WebSocket.OPEN) {
         logger.log('debug', `Broadcast: ${message}`);
@@ -39,7 +39,6 @@ export default class WebSocketServer {
             users: userStorage.getAllUsers(),
           },
           ws,
-          true,
         );
         logger.log('debug', `User List: ${userStorage.getAllUsers()}`);
         break;
@@ -52,6 +51,7 @@ export default class WebSocketServer {
             username: data.username,
           },
           ws,
+          true,
         );
         logger.log('debug', `ADD_MESSAGE called, data: ${data}`);
         break;
