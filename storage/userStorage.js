@@ -12,8 +12,12 @@ class UserStorage {
   }
 
   addUser(username) {
-    if (!this.isUserExist(username)) this.users.push({ username, id: users.length + 1 });
-    return { username, id: users.length + 1 };
+    if (!this.isUserExist(username)) {
+      const user = { username, id: users.length + 1 };
+      this.users.push(user);
+      return user;
+    }
+    return {};
   }
 
   removeUser(id) {

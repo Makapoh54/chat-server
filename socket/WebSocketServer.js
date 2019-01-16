@@ -11,6 +11,7 @@ export default class WebSocketServer {
     this.wss.on('connection', ws => {
       ws.on('message', message => this.handleMessage(message, ws));
       ws.on('close', () => {
+        logger.log('info', `User disconnected!`);
         if (ws.user && ws.user.id) userStorage.removeUser(ws.user.id);
         this.broadcast({ type: 'USERS_LIST', users: userStorage.getAllUsers() }, ws);
       });
@@ -20,7 +21,7 @@ export default class WebSocketServer {
   broadcast(message, ws, exceptClient = false) {
     this.wss.clients.forEach(client => {
       if ((!exceptClient || client !== ws) && client.readyState === WebSocket.OPEN) {
-        logger.log('debug', `Broadcast: ${message}`);
+        logger.log('debug', `Broadcast: ${JSON.stringify(message)}`);
         client.send(JSON.stringify(message));
       }
     });
@@ -40,7 +41,6 @@ export default class WebSocketServer {
           },
           ws,
         );
-        logger.log('debug', `User List: ${userStorage.getAllUsers()}`);
         break;
       }
       case messageTypes.ADD_MESSAGE:
@@ -53,7 +53,7 @@ export default class WebSocketServer {
           ws,
           true,
         );
-        logger.log('debug', `ADD_MESSAGE called, data: ${data}`);
+        logger.log('debug', `ADD_MESSAGE called, data: ${JSON.stringify(data)}`);
         break;
       default:
         break;

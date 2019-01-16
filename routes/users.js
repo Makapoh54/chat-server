@@ -1,10 +1,11 @@
 import express from 'express';
-
-import { checkUserExists, addNewUser } from '../controllers/userController';
+import { checkSchema } from 'express-validator/check';
+import { usernameSchema } from '../validatons/UserSchema';
+console.log(usernameSchema)
+import { checkUserExists } from '../controllers/userController';
 
 const router = express.Router();
 
-router.post('/users', addNewUser);
-router.get('/users/:username/exists', checkUserExists);
+router.get('/users/:username/exists', checkSchema(usernameSchema), checkUserExists);
 
 export default router;
