@@ -1,7 +1,6 @@
+import { validationResult } from 'express-validator/check';
 import AppError from '../errors/AppError';
 import userStorage from '../storage/userStorage';
-
-const { validationResult } = require('express-validator/check');
 
 const logger = require('../utils/logger')('UserController');
 
